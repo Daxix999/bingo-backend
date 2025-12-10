@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Tablas de Bingo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- ============================================================
+         PÁGINA PRINCIPAL - INICIO DE SESIÓN Y REGISTRO
+         ============================================================ -->
+    
+    <div class="container">
+        <!-- ------------------------------------------------------------
+             Encabezado principal
+             ------------------------------------------------------------ -->
+        <header class="header">
+            <h1>🎲 Generador de Tablas de Bingo</h1>
+            <p class="subtitle">Crea tablas personalizadas de bingo profesional</p>
+        </header>
+
+        <!-- ------------------------------------------------------------
+             Sección de Login
+             ------------------------------------------------------------ -->
+        <section class="auth-section" id="loginSection">
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="log_email">Correo Electrónico</label>
+                    <input type="email" id="log_email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="log_pass">Contraseña</label>
+                    <input type="password" id="log_pass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="btnLogin">
+                    Iniciar Sesión
+                </button>
+                <p class="form-footer">
+                    ¿No tienes cuenta? 
+                    <a href="#" id="showRegister">Regístrate aquí</a>
+                </p>
+            </form>
+            <div id="loginError" class="error-message" style="display: none;"></div>
+        </section>
+
+        <!-- ------------------------------------------------------------
+             Sección de Registro
+             ------------------------------------------------------------ -->
+        <section class="auth-section" id="registerSection" style="display: none;">
+            <h2>Crear Cuenta</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="reg_nombre">Nombre Completo</label>
+                    <input type="text" id="reg_nombre" placeholder="Juan Pérez" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg_email">Correo Electrónico</label>
+                    <input type="email" id="reg_email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg_pass">Contraseña</label>
+                    <input type="password" id="reg_pass" placeholder="Mínimo 6 caracteres" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary" id="btnRegister">
+                    Registrarse
+                </button>
+                <p class="form-footer">
+                    ¿Ya tienes cuenta? 
+                    <a href="#" id="showLogin">Inicia sesión aquí</a>
+                </p>
+            </form>
+            <div id="registerError" class="error-message" style="display: none;"></div>
+        </section>
+    </div>
+
+    <!-- ------------------------------------------------------------
+         Scripts de la aplicación
+         ------------------------------------------------------------ -->
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
