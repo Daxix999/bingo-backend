@@ -1,85 +1,36 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Tablas de Bingo</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/responsive.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bingo Generator - Demo</title>
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- ============================================================
-         PÁGINA PRINCIPAL - INICIO DE SESIÓN Y REGISTRO
-         ============================================================ -->
-    
-    <div class="container">
-        <!-- ------------------------------------------------------------
-             Encabezado principal
-             ------------------------------------------------------------ -->
-        <header class="header">
-            <h1>🎲 Generador de Tablas de Bingo</h1>
-            <p class="subtitle">Crea tablas personalizadas de bingo profesional</p>
-        </header>
+  <h1>Bingo Generator — Demo</h1>
+  <section>
+    <h3>Registro</h3>
+    <input id="reg_nombre" placeholder="Nombre"><br>
+    <input id="reg_email" placeholder="Email"><br>
+    <input id="reg_pass" type="password" placeholder="Password"><br>
+    <button id="btnRegister">Registrar</button>
+  </section>
 
-        <!-- ------------------------------------------------------------
-             Sección de Login
-             ------------------------------------------------------------ -->
-        <section class="auth-section" id="loginSection">
-            <h2>Iniciar Sesión</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="log_email">Correo Electrónico</label>
-                    <input type="email" id="log_email" placeholder="tu@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="log_pass">Contraseña</label>
-                    <input type="password" id="log_pass" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-primary" id="btnLogin">
-                    Iniciar Sesión
-                </button>
-                <p class="form-footer">
-                    ¿No tienes cuenta? 
-                    <a href="#" id="showRegister">Regístrate aquí</a>
-                </p>
-            </form>
-            <div id="loginError" class="error-message" style="display: none;"></div>
-        </section>
+  <section>
+    <h3>Login</h3>
+    <input id="log_email" placeholder="Email"><br>
+    <input id="log_pass" type="password" placeholder="Password"><br>
+    <button id="btnLogin">Entrar</button>
+  </section>
 
-        <!-- ------------------------------------------------------------
-             Sección de Registro
-             ------------------------------------------------------------ -->
-        <section class="auth-section" id="registerSection" style="display: none;">
-            <h2>Crear Cuenta</h2>
-            <form id="registerForm">
-                <div class="form-group">
-                    <label for="reg_nombre">Nombre Completo</label>
-                    <input type="text" id="reg_nombre" placeholder="Juan Pérez" required>
-                </div>
-                <div class="form-group">
-                    <label for="reg_email">Correo Electrónico</label>
-                    <input type="email" id="reg_email" placeholder="tu@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="reg_pass">Contraseña</label>
-                    <input type="password" id="reg_pass" placeholder="Mínimo 6 caracteres" required minlength="6">
-                </div>
-                <button type="submit" class="btn btn-primary" id="btnRegister">
-                    Registrarse
-                </button>
-                <p class="form-footer">
-                    ¿Ya tienes cuenta? 
-                    <a href="#" id="showLogin">Inicia sesión aquí</a>
-                </p>
-            </form>
-            <div id="registerError" class="error-message" style="display: none;"></div>
-        </section>
-    </div>
+  <section id="editorSection" style="display:none;">
+    <h3>Editor de plantillas (demo)</h3>
+    <label>Filas <input id="rows" type="number" value="5"></label>
+    <label>Columnas <input id="cols" type="number" value="5"></label>
+    <button id="btnCreateGrid">Crear plantilla</button>
+    <div id="gridWrap"></div>
+    <button id="btnCreateLot">Generar lote (prueba)</button>
+  </section>
 
-    <!-- ------------------------------------------------------------
-         Scripts de la aplicación
-         ------------------------------------------------------------ -->
-    <script src="js/utils.js"></script>
-    <script src="js/auth.js"></script>
+<script src="js/templateEditor.js"></script>
 </body>
 </html>

@@ -17,25 +17,8 @@ const fs = require('fs').promises;
 // Retorna: String HTML
 // ------------------------------------------------------------
 const generarHTMLTabla = (tabla, plantilla, estilos = {}) => {
-    // Parsear iconos si existen
-    let iconos = null;
-    try {
-        iconos = plantilla.iconos_json 
-            ? (typeof plantilla.iconos_json === 'string' 
-                ? JSON.parse(plantilla.iconos_json) 
-                : plantilla.iconos_json)
-            : null;
-    } catch (error) {
-        console.warn('Error al parsear iconos_json:', error);
-        iconos = null;
-    }
-    
-    const encabezadoTexto = plantilla.encabezado_texto || '';
-    const encabezadoImg = plantilla.encabezado_img || '';
-    
-    // Calcular tamaño de celda según cantidad de columnas
-    const numColumnas = tabla[0] ? tabla[0].length : 5;
-    const tamañoCelda = Math.max(40, Math.min(80, 500 / numColumnas));
+    const iconos = plantilla.iconos_json ? JSON.parse(plantilla.iconos_json) : null;
+    const encabezado = plantilla.encabezado_texto || '';
     
     let html = `
     <div class="tabla-bingo" style="
@@ -44,29 +27,13 @@ const generarHTMLTabla = (tabla, plantilla, estilos = {}) => {
         padding: 15px;
         background: white;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin: 10px auto;
+        margin: 20px auto;
         max-width: 600px;
     ">
     `;
     
-    // Agregar encabezado (imagen o texto)
-    if (encabezadoImg) {
-        // Usar imagen de encabezado
-        const rutaImagen = `/uploads/encabezados/${encabezadoImg}`;
-        html += `
-        <div class="encabezado-img" style="
-            text-align: center;
-            margin-bottom: 15px;
-        ">
-            <img src="${rutaImagen}" style="
-                max-width: 100%;
-                max-height: 80px;
-                object-fit: contain;
-            " alt="Encabezado">
-        </div>
-        `;
-    } else if (encabezadoTexto) {
-        // Usar texto de encabezado
+    // Agregar encabezado si existe
+    if (encabezado) {
         html += `
         <div class="encabezado" style="
             text-align: center;
@@ -75,7 +42,7 @@ const generarHTMLTabla = (tabla, plantilla, estilos = {}) => {
             color: #1976d2;
             margin-bottom: 15px;
             letter-spacing: 8px;
-        ">${encabezadoTexto}</div>
+        ">${encabezado}</div>
         `;
     }
     
@@ -83,7 +50,7 @@ const generarHTMLTabla = (tabla, plantilla, estilos = {}) => {
     html += `
     <div class="grid" style="
         display: grid;
-        grid-template-columns: repeat(${numColumnas}, 1fr);
+        grid-template-columns: repeat(${tabla[0].length}, 1fr);
         gap: 4px;
     ">
     `;
@@ -92,31 +59,26 @@ const generarHTMLTabla = (tabla, plantilla, estilos = {}) => {
     for (let f = 0; f < tabla.length; f++) {
         for (let c = 0; c < tabla[f].length; c++) {
             const celda = tabla[f][c];
-            const icono = iconos && iconos[f] && iconos[f][c] ? iconos[f][c] : null;
+            const icono = iconos ? iconos[f][c] : null;
             
-            if (celda && celda.numero !== null && celda.numero !== undefined) {
+            if (celda && celda.numero !== null) {
                 // Celda activa con número
-                const esRelleno = icono === 'relleno' || icono === 'cuadrado_relleno';
-                const colorFondo = esRelleno ? '#1976d2' : 'white';
-                const colorTexto = esRelleno ? 'white' : '#333';
-                const tamañoFuente = Math.max(16, Math.min(28, tamañoCelda * 0.4));
-                
                 html += `
                 <div class="celda activa" style="
-                    background: ${colorFondo};
+                    background: ${icono === 'relleno' ? '#1976d2' : 'white'};
                     border: 2px solid #333;
                     border-radius: 8px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    font-size: ${tamañoFuente}px;
+                    font-size: 28px;
                     font-weight: bold;
-                    color: ${colorTexto};
-                    min-height: ${tamañoCelda}px;
+                    color: ${icono === 'relleno' ? 'white' : '#333'};
+                    height: 70px;
                     position: relative;
                 ">
-                    <span style="position: relative; z-index: 2;">${celda.numero}</span>
-                    ${icono && !esRelleno ? `<span style="position: absolute; top: 2px; right: 4px; font-size: ${tamañoFuente * 0.4}px; z-index: 1; opacity: 0.7;">${obtenerIcono(icono)}</span>` : ''}
+                    ${celda.numero}
+                    ${icono && icono !== 'relleno' ? `<span style="position: absolute; top: 2px; right: 4px; font-size: 12px;">${obtenerIcono(icono)}</span>` : ''}
                 </div>
                 `;
             } else {
@@ -126,7 +88,7 @@ const generarHTMLTabla = (tabla, plantilla, estilos = {}) => {
                     background: #f5f5f5;
                     border: 2px solid #ddd;
                     border-radius: 8px;
-                    min-height: ${tamañoCelda}px;
+                    height: 70px;
                 "></div>
                 `;
             }
@@ -140,59 +102,20 @@ const generarHTMLTabla = (tabla, plantilla, estilos = {}) => {
 
 // ------------------------------------------------------------
 // Función auxiliar para obtener símbolos de iconos
-// Soporta múltiples tipos de iconos y personalización
 // ------------------------------------------------------------
 const obtenerIcono = (tipo) => {
-    // Si el tipo es un carácter único, devolverlo directamente
-    if (tipo && tipo.length === 1 && /[A-Za-z0-9]/.test(tipo)) {
-        return tipo;
-    }
-    
-    // Mapeo de tipos de iconos comunes
     const iconos = {
         'corazon': '♥',
-        'corazón': '♥',
-        'heart': '♥',
         'rombo': '♦',
-        'diamond': '♦',
         'cuadrado': '■',
-        'square': '■',
         'circulo': '●',
-        'círculo': '●',
-        'circle': '●',
         'estrella': '★',
-        'star': '★',
-        'relleno': '',
-        'cuadrado_relleno': '',
         'A': 'A',
-        'B': 'B',
-        'C': 'C',
-        'D': 'D',
-        'E': 'E',
-        'F': 'F',
-        'G': 'G',
-        'H': 'H',
-        'I': 'I',
-        'J': 'J',
-        'K': 'K',
-        'L': 'L',
-        'M': 'M',
-        'N': 'N',
-        'O': 'O',
-        'P': 'P',
-        'Q': 'Q',
-        'R': 'R',
-        'S': 'S',
-        'T': 'T',
-        'U': 'U',
-        'V': 'V',
-        'W': 'W',
         'X': 'X',
-        'Y': 'Y',
-        'Z': 'Z'
+        'G': 'G'
     };
     
-    return iconos[tipo?.toLowerCase()] || (tipo || '');
+    return iconos[tipo] || '';
 };
 
 // ------------------------------------------------------------
@@ -216,12 +139,6 @@ const generarPDF = async (tablas, plantilla, tablasPorPagina = 1, nombreArchivo)
         
         const page = await browser.newPage();
         
-        // Calcular tamaño de tabla según cantidad por página
-        const tamañoPorTabla = tablasPorPagina === 1 ? '100%' : 
-                              tablasPorPagina === 2 ? '48%' :
-                              tablasPorPagina === 4 ? '48%' :
-                              tablasPorPagina === 6 ? '31%' : '23%';
-        
         // Generar HTML completo
         let htmlCompleto = `
         <!DOCTYPE html>
@@ -231,7 +148,7 @@ const generarPDF = async (tablas, plantilla, tablasPorPagina = 1, nombreArchivo)
             <style>
                 @page {
                     size: A4;
-                    margin: 15mm;
+                    margin: 20mm;
                 }
                 body {
                     font-family: Arial, sans-serif;
@@ -241,17 +158,11 @@ const generarPDF = async (tablas, plantilla, tablasPorPagina = 1, nombreArchivo)
                 .pagina {
                     page-break-after: always;
                     display: flex;
-                    flex-wrap: wrap;
-                    gap: 10px;
-                    justify-content: space-around;
-                    align-items: flex-start;
+                    flex-direction: column;
+                    gap: 20px;
                 }
                 .pagina:last-child {
                     page-break-after: auto;
-                }
-                .tabla-bingo {
-                    width: ${tamañoPorTabla};
-                    box-sizing: border-box;
                 }
             </style>
         </head>
@@ -271,46 +182,25 @@ const generarPDF = async (tablas, plantilla, tablasPorPagina = 1, nombreArchivo)
         
         htmlCompleto += '</body></html>';
         
-        // Configurar ruta base para recursos estáticos (imágenes)
-        const rutaBase = path.join(__dirname, '..');
-        
-        // Si hay imagen de encabezado, convertir ruta relativa a absoluta
-        if (plantilla.encabezado_img) {
-            const rutaImagen = path.join(rutaBase, 'uploads', 'encabezados', plantilla.encabezado_img);
-            // Reemplazar ruta relativa por absoluta en el HTML
-            htmlCompleto = htmlCompleto.replace(
-                `/uploads/encabezados/${plantilla.encabezado_img}`,
-                `file://${rutaImagen.replace(/\\/g, '/')}`
-            );
-        }
-        
         // Cargar HTML en la página
         await page.setContent(htmlCompleto, {
             waitUntil: 'networkidle0'
         });
         
-        // Esperar un momento para que las imágenes se carguen
-        await page.waitForTimeout(1000);
-        
         // Definir ruta del archivo PDF
         const pdfPath = path.join(__dirname, '../pdfs', nombreArchivo);
         
-        // Asegurar que la carpeta existe
-        const fs = require('fs').promises;
-        await fs.mkdir(path.dirname(pdfPath), { recursive: true });
-        
-        // Generar PDF con mejor calidad
+        // Generar PDF
         await page.pdf({
             path: pdfPath,
             format: 'A4',
             printBackground: true,
             margin: {
-                top: '15mm',
+                top: '20mm',
                 right: '15mm',
-                bottom: '15mm',
+                bottom: '20mm',
                 left: '15mm'
-            },
-            preferCSSPageSize: true
+            }
         });
         
         await browser.close();
