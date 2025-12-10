@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Tablas - Generador de Bingo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- ------------------------------------------------------------
+         Barra de navegación
+         ------------------------------------------------------------ -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
+                    <span>🎲</span>
+                    <span>Bingo Generator</span>
+                </a>
+            </div>
+            <div class="nav-user">
+                <span id="userCredits" class="credits-badge">0 créditos</span>
+                <a href="dashboard.html" class="btn btn-secondary btn-small">Volver</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- ------------------------------------------------------------
+             Encabezado del generador
+             ------------------------------------------------------------ -->
+        <header class="page-header">
+            <h1>🎲 Generar Tablas de Bingo</h1>
+            <p class="subtitle">Crea lotes de tablas personalizadas</p>
+        </header>
+
+        <!-- ------------------------------------------------------------
+             Formulario de generación
+             ------------------------------------------------------------ -->
+        <section class="generator-section">
+            <div class="card">
+                <h2>Configuración del Lote</h2>
+                
+                <!-- ------------------------------------------------------------
+                     Selector de plantilla
+                     ------------------------------------------------------------ -->
+                <div class="form-group">
+                    <label for="plantillaSelect">Seleccionar Plantilla</label>
+                    <select id="plantillaSelect" class="input-field">
+                        <option value="">Cargando plantillas...</option>
+                    </select>
+                    <button id="btnRefreshTemplates" class="btn btn-secondary btn-small mt-sm">🔄 Actualizar</button>
+                </div>
+
+                <!-- ------------------------------------------------------------
+                     Cantidad de tablas
+                     ------------------------------------------------------------ -->
+                <div class="form-group">
+                    <label for="cantidadTablas">Cantidad de Tablas</label>
+                    <input 
+                        type="number" 
+                        id="cantidadTablas" 
+                        min="1" 
+                        max="10000" 
+                        value="10" 
+                        class="input-field"
+                    >
+                    <p class="help-text">Máximo 10,000 tablas por lote</p>
+                </div>
+
+                <!-- ------------------------------------------------------------
+                     Tablas por página
+                     ------------------------------------------------------------ -->
+                <div class="form-group">
+                    <label for="tablasPorPagina">Tablas por Página</label>
+                    <select id="tablasPorPagina" class="input-field">
+                        <option value="1">1 tabla (Grande)</option>
+                        <option value="2">2 tablas</option>
+                        <option value="4" selected>4 tablas</option>
+                        <option value="6">6 tablas</option>
+                        <option value="12">12 tablas (Pequeñas)</option>
+                        <option value="custom">Personalizado</option>
+                    </select>
+                </div>
+
+                <!-- ------------------------------------------------------------
+                     Opción personalizada de tablas por página
+                     ------------------------------------------------------------ -->
+                <div class="form-group" id="customPerPageGroup" style="display: none;">
+                    <label for="customPerPage">Cantidad Personalizada</label>
+                    <input 
+                        type="number" 
+                        id="customPerPage" 
+                        min="1" 
+                        max="50" 
+                        value="8" 
+                        class="input-field"
+                    >
+                </div>
+
+                <!-- ------------------------------------------------------------
+                     Tipo de PDF
+                     ------------------------------------------------------------ -->
+                <div class="form-group">
+                    <label for="tipoPDF">Tipo de PDF</label>
+                    <select id="tipoPDF" class="input-field">
+                        <option value="prueba">PDF de Prueba (Gratis)</option>
+                        <option value="final">PDF Final (Requiere Créditos)</option>
+                    </select>
+                    <p class="help-text" id="costoInfo">
+                        PDF de prueba: 0 créditos | PDF final: 5 créditos por tabla
+                    </p>
+                </div>
+
+                <!-- ------------------------------------------------------------
+                     Información de costo
+                     ------------------------------------------------------------ -->
+                <div class="cost-info card" id="costInfo" style="display: none;">
+                    <h3>💰 Costo Estimado</h3>
+                    <div class="cost-breakdown">
+                        <p>Tablas: <span id="costTablas">0</span></p>
+                        <p>Costo por tabla: <span id="costPerTable">5</span> créditos</p>
+                        <p class="cost-total">Total: <span id="costTotal">0</span> créditos</p>
+                        <p class="cost-available">Tus créditos: <span id="costAvailable">0</span></p>
+                    </div>
+                </div>
+
+                <!-- ------------------------------------------------------------
+                     Botones de acción
+                     ------------------------------------------------------------ -->
+                <div class="form-actions">
+                    <button id="btnGenerate" class="btn btn-primary btn-large">
+                        🎲 Generar Tablas
+                    </button>
+                    <button id="btnPreview" class="btn btn-secondary">
+                        👁️ Vista Previa
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ------------------------------------------------------------
+             Vista previa (opcional)
+             ------------------------------------------------------------ -->
+        <section class="preview-section" id="previewSection" style="display: none;">
+            <div class="card">
+                <h2>Vista Previa</h2>
+                <div id="previewContent"></div>
+            </div>
+        </section>
+
+        <!-- ------------------------------------------------------------
+             Mensajes de error/éxito
+             ------------------------------------------------------------ -->
+        <div id="generatorMessage" class="error-message" style="display: none;"></div>
+        <div id="generatorSuccess" class="success-message" style="display: none;"></div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/lotGenerator.js"></script>
+</body>
+</html>
+

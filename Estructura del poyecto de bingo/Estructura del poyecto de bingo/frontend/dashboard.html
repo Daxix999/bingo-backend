@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Generador de Bingo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- ------------------------------------------------------------
+         Barra de navegación
+         ------------------------------------------------------------ -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span>🎲</span>
+                <span>Bingo Generator</span>
+            </div>
+            <div class="nav-user">
+                <span id="userCredits" class="credits-badge">0 créditos</span>
+                <span id="userName" class="user-name"></span>
+                <button id="btnLogout" class="btn btn-secondary btn-small">Salir</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- ------------------------------------------------------------
+             Encabezado del dashboard
+             ------------------------------------------------------------ -->
+        <header class="dashboard-header">
+            <h1>Bienvenido, <span id="dashboardUserName"></span></h1>
+            <p class="subtitle">Gestiona tus tablas de bingo</p>
+        </header>
+
+        <!-- ------------------------------------------------------------
+             Tarjetas de acciones rápidas
+             ------------------------------------------------------------ -->
+        <div class="dashboard-cards">
+            <div class="card-action" onclick="window.location.href='editor.html'">
+                <div class="card-icon">✏️</div>
+                <h3>Crear Plantilla</h3>
+                <p>Diseña tu tabla personalizada</p>
+            </div>
+
+            <div class="card-action" onclick="window.location.href='generator.html'">
+                <div class="card-icon">🎲</div>
+                <h3>Generar Tablas</h3>
+                <p>Genera lotes de tablas de bingo</p>
+            </div>
+
+            <div class="card-action" onclick="window.location.href='historial.html'">
+                <div class="card-icon">📋</div>
+                <h3>Historial</h3>
+                <p>Ver tablas generadas</p>
+            </div>
+
+            <div class="card-action" id="adminCard" style="display: none;" onclick="window.location.href='admin.html'">
+                <div class="card-icon">⚙️</div>
+                <h3>Administración</h3>
+                <p>Panel de administrador</p>
+            </div>
+        </div>
+
+        <!-- ------------------------------------------------------------
+             Información de créditos
+             ------------------------------------------------------------ -->
+        <section class="credits-section">
+            <div class="card">
+                <h2>💰 Tus Créditos</h2>
+                <div class="credits-display">
+                    <span class="credits-amount" id="creditsAmount">0</span>
+                    <span class="credits-label">créditos disponibles</span>
+                </div>
+                <p class="credits-info">
+                    Cada tabla generada cuesta 1 crédito. 
+                    Los PDFs de prueba son gratis.
+                </p>
+            </div>
+        </section>
+
+        <!-- ------------------------------------------------------------
+             Estadísticas rápidas
+             ------------------------------------------------------------ -->
+        <section class="stats-section">
+            <h2>Estadísticas</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalLotes">0</div>
+                    <div class="stat-label">Lotes Generados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalTablas">0</div>
+                    <div class="stat-label">Tablas Totales</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
+

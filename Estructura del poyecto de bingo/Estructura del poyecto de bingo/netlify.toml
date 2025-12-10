@@ -1,0 +1,68 @@
+# ============================================================
+# CONFIGURACIÓN DE NETLIFY - FRONTEND
+# Archivo: netlify.toml
+# Descripción: Configuración para desplegar el frontend
+#              en Netlify (hosting estático)
+# ============================================================
+
+# ------------------------------------------------------------
+# Configuración de build (si necesitas procesar archivos)
+# ------------------------------------------------------------
+[build]
+  # Carpeta donde está el frontend
+  publish = "frontend"
+  
+  # Comando de build (opcional, si necesitas procesar archivos)
+  # command = "npm run build"
+
+# ------------------------------------------------------------
+# Redirecciones para SPA (Single Page Application)
+# Todas las rutas van al index.html para que funcione el routing
+# ------------------------------------------------------------
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# ------------------------------------------------------------
+# Headers de seguridad y CORS
+# ------------------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Permitir CORS desde el backend
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    
+    # Seguridad
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# ------------------------------------------------------------
+# Headers para archivos estáticos (CSS, JS, imágenes)
+# ------------------------------------------------------------
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ------------------------------------------------------------
+# Variables de entorno (se configuran en el dashboard de Netlify)
+# Estas son solo para referencia, se configuran en el panel
+# ------------------------------------------------------------
+# [context.production.environment]
+#   API_URL = "https://tu-backend-en-render.onrender.com"
+
