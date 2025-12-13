@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Plantillas - Generador de Bingo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- ------------------------------------------------------------
+         Barra de navegación
+         ------------------------------------------------------------ -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
+                    <span>🎲</span>
+                    <span>Bingo Generator</span>
+                </a>
+            </div>
+            <div class="nav-user">
+                <a href="dashboard.html" class="btn btn-secondary btn-small">Volver</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- ------------------------------------------------------------
+             Encabezado del editor
+             ------------------------------------------------------------ -->
+        <header class="page-header">
+            <h1>✏️ Editor de Plantillas</h1>
+            <p class="subtitle">Diseña tu tabla de bingo personalizada</p>
+        </header>
+
+        <!-- ------------------------------------------------------------
+             Panel de configuración
+             ------------------------------------------------------------ -->
+        <section class="editor-controls">
+            <div class="control-group">
+                <label for="templateName">Nombre de la Plantilla</label>
+                <input type="text" id="templateName" placeholder="Mi Plantilla Personalizada" class="input-field">
+            </div>
+
+            <div class="control-row">
+                <div class="control-group">
+                    <label for="rows">Filas</label>
+                    <input type="number" id="rows" value="5" min="1" max="20" class="input-field">
+                </div>
+                <div class="control-group">
+                    <label for="cols">Columnas</label>
+                    <input type="number" id="cols" value="5" min="1" max="20" class="input-field">
+                </div>
+                <div class="control-group">
+                    <button id="btnCreateGrid" class="btn btn-primary">Crear Grid</button>
+                </div>
+            </div>
+
+            <!-- ------------------------------------------------------------
+                 Configuración de encabezado
+                 ------------------------------------------------------------ -->
+            <div class="control-group">
+                <label for="encabezadoTexto">Encabezado (Texto)</label>
+                <input type="text" id="encabezadoTexto" placeholder="BINGO" class="input-field">
+            </div>
+
+            <div class="control-group">
+                <label for="encabezadoImg">Encabezado (Imagen)</label>
+                <input type="file" id="encabezadoImg" accept="image/*" class="input-field">
+            </div>
+
+            <!-- ------------------------------------------------------------
+                 Selector de iconos para celdas
+                 ------------------------------------------------------------ -->
+            <div class="control-group">
+                <label>Icono para Celdas Activas</label>
+                <div class="icon-selector" id="iconSelector">
+                    <button type="button" class="icon-btn" data-icon="ninguno" title="Sin icono">Ninguno</button>
+                    <button type="button" class="icon-btn active" data-icon="corazon" title="Corazón">♥</button>
+                    <button type="button" class="icon-btn" data-icon="rombo" title="Rombo">♦</button>
+                    <button type="button" class="icon-btn" data-icon="cuadrado" title="Cuadrado">■</button>
+                    <button type="button" class="icon-btn" data-icon="circulo" title="Círculo">●</button>
+                    <button type="button" class="icon-btn" data-icon="estrella" title="Estrella">★</button>
+                    <button type="button" class="icon-btn" data-icon="relleno" title="Relleno">⬛</button>
+                    <button type="button" class="icon-btn" data-icon="A" title="Letra A">A</button>
+                    <button type="button" class="icon-btn" data-icon="X" title="Letra X">X</button>
+                    <button type="button" class="icon-btn" data-icon="G" title="Letra G">G</button>
+                </div>
+            </div>
+
+            <!-- ------------------------------------------------------------
+                 Rango de números
+                 ------------------------------------------------------------ -->
+            <div class="control-row">
+                <div class="control-group">
+                    <label for="numeroMin">Número Mínimo</label>
+                    <input type="number" id="numeroMin" value="1" min="1" max="999" class="input-field">
+                </div>
+                <div class="control-group">
+                    <label for="numeroMax">Número Máximo</label>
+                    <input type="number" id="numeroMax" value="90" min="1" max="999" class="input-field">
+                </div>
+            </div>
+        </section>
+
+        <!-- ------------------------------------------------------------
+             Grid de la plantilla (tabla editable)
+             ------------------------------------------------------------ -->
+        <section class="editor-grid-section">
+            <h2>Diseña tu Tabla</h2>
+            <p class="help-text">Haz clic en las celdas para activarlas o desactivarlas</p>
+            <div id="gridWrap" class="grid-container"></div>
+        </section>
+
+        <!-- ------------------------------------------------------------
+             Botones de acción
+             ------------------------------------------------------------ -->
+        <section class="editor-actions">
+            <button id="btnSaveTemplate" class="btn btn-primary">💾 Guardar Plantilla</button>
+            <button id="btnLoadTemplate" class="btn btn-secondary">📂 Cargar Plantilla</button>
+            <button id="btnClearGrid" class="btn btn-secondary">🗑️ Limpiar</button>
+        </section>
+
+        <!-- ------------------------------------------------------------
+             Mensajes de error/éxito
+             ------------------------------------------------------------ -->
+        <div id="editorMessage" class="error-message" style="display: none;"></div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/templateEditor.js"></script>
+</body>
+</html>
+

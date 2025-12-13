@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bingo Generator - Demo</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h1>Bingo Generator — Demo</h1>
+  <section>
+    <h3>Registro</h3>
+    <input id="reg_nombre" placeholder="Nombre"><br>
+    <input id="reg_email" placeholder="Email"><br>
+    <input id="reg_pass" type="password" placeholder="Password"><br>
+    <button id="btnRegister">Registrar</button>
+  </section>
+
+  <section>
+    <h3>Login</h3>
+    <input id="log_email" placeholder="Email"><br>
+    <input id="log_pass" type="password" placeholder="Password"><br>
+    <button id="btnLogin">Entrar</button>
+  </section>
+
+  <section id="editorSection" style="display:none;">
+    <h3>Editor de plantillas (demo)</h3>
+    <label>Filas <input id="rows" type="number" value="5"></label>
+    <label>Columnas <input id="cols" type="number" value="5"></label>
+    <button id="btnCreateGrid">Crear plantilla</button>
+    <div id="gridWrap"></div>
+    <button id="btnCreateLot">Generar lote (prueba)</button>
+  </section>
+
+<script src="js/utils.js"></script>
+<script src="js/templateEditor.js"></script>
+</body>
+</html>

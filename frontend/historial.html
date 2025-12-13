@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial - Generador de Bingo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- ------------------------------------------------------------
+         Barra de navegación
+         ------------------------------------------------------------ -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
+                    <span>🎲</span>
+                    <span>Bingo Generator</span>
+                </a>
+            </div>
+            <div class="nav-user">
+                <span id="userCredits" class="credits-badge">0 créditos</span>
+                <a href="dashboard.html" class="btn btn-secondary btn-small">Volver</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- ------------------------------------------------------------
+             Encabezado del historial
+             ------------------------------------------------------------ -->
+        <header class="page-header">
+            <h1>📋 Historial de Tablas Generadas</h1>
+            <p class="subtitle">Revisa y descarga tus tablas de bingo</p>
+        </header>
+
+        <!-- ------------------------------------------------------------
+             Lista de lotes generados
+             ------------------------------------------------------------ -->
+        <section class="historial-section">
+            <div id="historialLoading" class="loading-message">
+                Cargando historial...
+            </div>
+            <div id="historialContent" class="historial-list" style="display: none;"></div>
+            <div id="historialEmpty" class="empty-state" style="display: none;">
+                <p>No has generado tablas aún</p>
+                <a href="generator.html" class="btn btn-primary">Generar Primera Tabla</a>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/historial.js"></script>
+</body>
+</html>
+

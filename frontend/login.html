@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Generador de Bingo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ------------------------------------------------------------
+             Encabezado de la página de login
+             ------------------------------------------------------------ -->
+        <header class="header">
+            <h1>🎲 Generador de Tablas de Bingo</h1>
+            <p class="subtitle">Inicia sesión para continuar</p>
+        </header>
+
+        <!-- ------------------------------------------------------------
+             Formulario de login
+             ------------------------------------------------------------ -->
+        <section class="auth-section">
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="log_email">Correo Electrónico</label>
+                    <input type="email" id="log_email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="log_pass">Contraseña</label>
+                    <input type="password" id="log_pass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="btnLogin">
+                    Iniciar Sesión
+                </button>
+                <p class="form-footer">
+                    ¿No tienes cuenta? 
+                    <a href="register.html">Regístrate aquí</a>
+                </p>
+            </form>
+            <div id="loginError" class="error-message" style="display: none;"></div>
+        </section>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // ------------------------------------------------------------
+        // Inicializar página de login
+        // ------------------------------------------------------------
+        document.addEventListener('DOMContentLoaded', () => {
+            // Si ya está autenticado, redirigir al dashboard
+            if (utils.estaAutenticado()) {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            // Configurar formulario de login
+            const loginForm = document.getElementById('loginForm');
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await realizarLogin();
+            });
+        });
+
+        // ------------------------------------------------------------
+        // Función para realizar el login
+        // ------------------------------------------------------------
+        async function realizarLogin() {
+            try {
+                const email = document.getElementById('log_email').value.trim();
+                const password = document.getElementById('log_pass').value;
+
+                if (!email || !password) {
+                    utils.mostrarError('loginError', 'Por favor completa todos los campos');
+                    return;
+                }
+
+                const btnLogin = document.getElementById('btnLogin');
+                btnLogin.disabled = true;
+                btnLogin.textContent = 'Iniciando sesión...';
+
+                const respuesta = await utils.apiRequest('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (respuesta.token) {
+                    localStorage.setItem('token', respuesta.token);
+                    localStorage.setItem('usuario', JSON.stringify(respuesta.usuario));
+                    utils.mostrarExito('¡Bienvenido! Redirigiendo...');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                }
+            } catch (error) {
+                utils.mostrarError('loginError', error.message || 'Error al iniciar sesión');
+                const btnLogin = document.getElementById('btnLogin');
+                btnLogin.disabled = false;
+                btnLogin.textContent = 'Iniciar Sesión';
+            }
+        }
+    </script>
+</body>
+</html>
+

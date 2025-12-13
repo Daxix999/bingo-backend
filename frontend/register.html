@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Generador de Bingo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ------------------------------------------------------------
+             Encabezado de la página de registro
+             ------------------------------------------------------------ -->
+        <header class="header">
+            <h1>🎲 Generador de Tablas de Bingo</h1>
+            <p class="subtitle">Crea tu cuenta gratis</p>
+        </header>
+
+        <!-- ------------------------------------------------------------
+             Formulario de registro
+             ------------------------------------------------------------ -->
+        <section class="auth-section">
+            <h2>Crear Cuenta</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="reg_nombre">Nombre Completo</label>
+                    <input type="text" id="reg_nombre" placeholder="Juan Pérez" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg_email">Correo Electrónico</label>
+                    <input type="email" id="reg_email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg_pass">Contraseña</label>
+                    <input type="password" id="reg_pass" placeholder="Mínimo 6 caracteres" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary" id="btnRegister">
+                    Registrarse
+                </button>
+                <p class="form-footer">
+                    ¿Ya tienes cuenta? 
+                    <a href="login.html">Inicia sesión aquí</a>
+                </p>
+            </form>
+            <div id="registerError" class="error-message" style="display: none;"></div>
+        </section>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script>
+        // ------------------------------------------------------------
+        // Inicializar página de registro
+        // ------------------------------------------------------------
+        document.addEventListener('DOMContentLoaded', () => {
+            // Si ya está autenticado, redirigir al dashboard
+            if (utils.estaAutenticado()) {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            // Configurar formulario de registro
+            const registerForm = document.getElementById('registerForm');
+            registerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await realizarRegistro();
+            });
+        });
+
+        // ------------------------------------------------------------
+        // Función para realizar el registro
+        // ------------------------------------------------------------
+        async function realizarRegistro() {
+            try {
+                const nombre = document.getElementById('reg_nombre').value.trim();
+                const email = document.getElementById('reg_email').value.trim();
+                const password = document.getElementById('reg_pass').value;
+
+                if (!nombre || !email || !password) {
+                    utils.mostrarError('registerError', 'Por favor completa todos los campos');
+                    return;
+                }
+
+                if (!utils.validarEmail(email)) {
+                    utils.mostrarError('registerError', 'El formato del email no es válido');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    utils.mostrarError('registerError', 'La contraseña debe tener al menos 6 caracteres');
+                    return;
+                }
+
+                const btnRegister = document.getElementById('btnRegister');
+                btnRegister.disabled = true;
+                btnRegister.textContent = 'Registrando...';
+
+                const respuesta = await utils.apiRequest('/auth/register', {
+                    method: 'POST',
+                    body: JSON.stringify({ nombre, email, password })
+                });
+
+                if (respuesta.token) {
+                    localStorage.setItem('token', respuesta.token);
+                    localStorage.setItem('usuario', JSON.stringify(respuesta.usuario));
+                    utils.mostrarExito('¡Cuenta creada exitosamente! Redirigiendo...');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                }
+            } catch (error) {
+                utils.mostrarError('registerError', error.message || 'Error al crear la cuenta');
+                const btnRegister = document.getElementById('btnRegister');
+                btnRegister.disabled = false;
+                btnRegister.textContent = 'Registrarse';
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,102 @@
+# ============================================================
+# CONFIGURACIÓN DE RENDER - BACKEND
+# Archivo: render.yaml
+# Descripción: Configuración para desplegar el backend Node.js
+#              en Render.com
+# ============================================================
+
+# ------------------------------------------------------------
+# Servicio del backend (API)
+# ------------------------------------------------------------
+services:
+  # ------------------------------------------------------------
+  # Backend - Servidor Node.js
+  # ------------------------------------------------------------
+  - type: web
+    name: bingo-generator-backend
+    env: node
+    region: oregon  # Puedes cambiar a: frankfurt, singapore, etc.
+    
+    # ------------------------------------------------------------
+    # Carpeta raíz del backend
+    # ------------------------------------------------------------
+    rootDir: backend
+    
+    # ------------------------------------------------------------
+    # Comando para iniciar el servidor
+    # ------------------------------------------------------------
+    buildCommand: npm install
+    startCommand: npm start
+    
+    # ------------------------------------------------------------
+    # Variables de entorno
+    # IMPORTANTE: Configura estas en el dashboard de Render
+    # o aquí mismo (pero mejor en el dashboard por seguridad)
+    # ------------------------------------------------------------
+    envVars:
+      # Entorno de ejecución
+      - key: NODE_ENV
+        value: production
+      
+      # Puerto (Render lo asigna automáticamente, pero lo definimos por si acaso)
+      - key: PORT
+        value: 10000
+      
+      # Base de datos MySQL (configurar en el dashboard con los valores de Railway)
+      # - key: DB_HOST
+      #   value: tu-host-de-railway.mysql.railway.app
+      # - key: DB_PORT
+      #   value: 3306
+      # - key: DB_USER
+      #   value: root
+      # - key: DB_PASSWORD
+      #   value: tu-password-de-railway
+      # - key: DB_NAME
+      #   value: railway
+      
+      # JWT Secret (generar uno seguro)
+      # - key: JWT_SECRET
+      #   generateValue: true
+      
+      # URL del frontend (tu URL de Netlify)
+      # - key: FRONTEND_URL
+      #   value: https://tu-sitio.netlify.app
+    
+    # ------------------------------------------------------------
+    # Configuración de salud del servicio
+    # Render verifica que el servidor esté funcionando
+    # ------------------------------------------------------------
+    healthCheckPath: /
+    
+    # ------------------------------------------------------------
+    # Plan de servicio (gratis)
+    # ------------------------------------------------------------
+    plan: free
+    
+    # ------------------------------------------------------------
+    # Auto-deploy desde GitHub
+    # Render se conecta automáticamente a tu repositorio
+    # ------------------------------------------------------------
+    autoDeploy: true
+
+# ============================================================
+# NOTAS IMPORTANTES:
+# ============================================================
+# 1. Después de crear el servicio en Render, ve a:
+#    Dashboard > Tu Servicio > Environment
+#    Y agrega todas las variables de entorno necesarias
+#
+# 2. Para la base de datos MySQL:
+#    - Crea una base de datos en Railway.app
+#    - Copia las credenciales de conexión
+#    - Pégalas en las variables de entorno de Render
+#
+# 3. Para Puppeteer (generación de PDFs):
+#    Render necesita instalar dependencias del sistema
+#    Se configuran en el buildCommand si es necesario
+#
+# 4. El servicio gratuito se "duerme" después de 15 min
+#    La primera petición después de dormir tarda ~30 seg
+#    Esto es normal en el plan gratuito
+# ============================================================
+

@@ -1,0 +1,11 @@
+{
+  "name": "bingo-generator-frontend",
+  "version": "1.0.0",
+  "description": "Frontend para generador de tablas de bingo",
+  "scripts": {
+    "start": "live-server --port=3000"
+  },
+  "keywords": ["bingo", "frontend"],
+  "author": "Tu Nombre",
+  "license": "ISC"
+}

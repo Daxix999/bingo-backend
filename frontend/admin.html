@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Generador de Bingo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- ------------------------------------------------------------
+         Barra de navegación del panel admin
+         ------------------------------------------------------------ -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="dashboard.html" style="text-decoration: none; color: inherit;">
+                    <span>🎲</span>
+                    <span>Bingo Generator</span>
+                </a>
+            </div>
+            <div class="nav-user">
+                <a href="dashboard.html" class="btn btn-secondary btn-small">Volver</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- ------------------------------------------------------------
+             Encabezado del panel admin
+             ------------------------------------------------------------ -->
+        <header class="page-header">
+            <h1>⚙️ Panel de Administración</h1>
+            <p class="subtitle">Gestiona usuarios y créditos del sistema</p>
+        </header>
+
+        <!-- ------------------------------------------------------------
+             Sección de búsqueda de usuarios
+             ------------------------------------------------------------ -->
+        <section class="admin-section">
+            <div class="card">
+                <h2>🔍 Buscar Usuario</h2>
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        id="searchEmail" 
+                        placeholder="Buscar por email o nombre..." 
+                        class="input-field"
+                    >
+                    <button id="btnSearch" class="btn btn-primary">Buscar</button>
+                </div>
+                <div id="searchResults" class="search-results" style="display: none;"></div>
+            </div>
+        </section>
+
+        <!-- ------------------------------------------------------------
+             Sección de gestión de créditos
+             ------------------------------------------------------------ -->
+        <section class="admin-section" id="creditsSection" style="display: none;">
+            <div class="card">
+                <h2>💰 Gestión de Créditos</h2>
+                <div id="userInfo" class="user-info-card"></div>
+                
+                <div class="credits-actions">
+                    <div class="action-group">
+                        <label for="creditsAmount">Cantidad de Créditos</label>
+                        <input 
+                            type="number" 
+                            id="creditsAmount" 
+                            min="1" 
+                            value="10" 
+                            class="input-field"
+                        >
+                    </div>
+                    <div class="action-group">
+                        <label for="creditsDescription">Descripción (opcional)</label>
+                        <input 
+                            type="text" 
+                            id="creditsDescription" 
+                            placeholder="Créditos regalados" 
+                            class="input-field"
+                        >
+                    </div>
+                    <div class="action-buttons">
+                        <button id="btnAddCredits" class="btn btn-success">➕ Agregar Créditos</button>
+                        <button id="btnRemoveCredits" class="btn btn-danger">➖ Quitar Créditos</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ------------------------------------------------------------
+             Sección de estadísticas del sistema
+             ------------------------------------------------------------ -->
+        <section class="admin-section">
+            <div class="card">
+                <h2>📊 Estadísticas del Sistema</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalUsuarios">0</div>
+                        <div class="stat-label">Total Usuarios</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalLotes">0</div>
+                        <div class="stat-label">Total Lotes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalTablas">0</div>
+                        <div class="stat-label">Total Tablas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalCreditos">0</div>
+                        <div class="stat-label">Créditos Totales</div>
+                    </div>
+                </div>
+                <button id="btnRefreshStats" class="btn btn-secondary mt-md">🔄 Actualizar Estadísticas</button>
+            </div>
+        </section>
+
+        <!-- ------------------------------------------------------------
+             Mensajes de error/éxito
+             ------------------------------------------------------------ -->
+        <div id="adminMessage" class="error-message" style="display: none;"></div>
+        <div id="adminSuccess" class="success-message" style="display: none;"></div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
+
